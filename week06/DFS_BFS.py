@@ -116,7 +116,7 @@ class Maze:
         return result
 
     def Solve(self):
-        self.num_step = 0
+       # self.num_step = 0
 
         start = Node(state=self.start,parent=None,action=None)
         frontier = StackFrontier()

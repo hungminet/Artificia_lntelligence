@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>207</width>
+    <height>216</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>201</width>
+      <height>172</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="0">
+      <widget class="QTextBrowser" name="location1x0"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QTextBrowser" name="location0x0"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QTextBrowser" name="location0x1"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QTextBrowser" name="location0x2"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QTextBrowser" name="location2x0"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QTextBrowser" name="location1x1"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QTextBrowser" name="location1x2"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QTextBrowser" name="location2x1"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QTextBrowser" name="location2x2"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>207</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menua">
+    <property name="title">
+     <string>8Puzzle</string>
+    </property>
+   </widget>
+   <addaction name="menua"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
