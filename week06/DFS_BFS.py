@@ -5,6 +5,9 @@
 # Edit desciption:
 #
 # Author: Stu.Nguyen Truong An
+import numpy as np
+
+
 class Node:
     def __init__(self, state, parent, action):
         self.state = state
@@ -34,6 +37,7 @@ class StackFrontier:
         return any(node.state == state
                    for node in self.frontier)
 
+
 class QueryFrontier(StackFrontier):
     def Remove(self):
         if self.Empty():
@@ -43,93 +47,53 @@ class QueryFrontier(StackFrontier):
             self.frontier = self.frontier[1:]
             return node
 
+
 class Maze:
-    def __init__(self,filename):
-        #read filename
-        with open(filename) as f:
-            contents = f.read()
-        if contents.count('A') != 1:
-            raise Exception('Must only one begin Point')
-        if contents.count('B') != 1:
-            raise Exception('Must only one end Point')
-        contents = contents.splitlines()
-        self.height = len(contents)
-        self.width = max(len(line) for line in contents)
+    def __init__(self):
+        # read filename
+        self.start = [[3, 1, 2], [6, 0, 8], [7, 5, 4]]
+        self.end = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
 
-        self.wall = []
-        for i in range (self.height):
-            row = []
-            for j in range (self.width):
-                try:
-                    if contents[i][j] == 'A':
-                        self.start = (i,j)
-                        row.append(False)
-                    elif contents[i][j] == 'B':
-                        self.end = (i,j)
-                        row.append(False)
-                    elif contents[i][j] == " ":
-                        row.append(False)
-                    else:
-                        row.append(True)
-                except IndexError:
-                    row.append(False)
-            self.wall.append(row)
-        self.solution = None
+    def Zero_loc(self, state):
+        a = np.array(state)
+        for i in range(3):
+            for j in range(3):
+                if a[i][j] == 0:
+                    return (i, j)
+        return None
 
-    def print(self):
-        #print('Height:',self.height,'Width:',self.width)
-        #print(self.wall)
-        print('Start Point: ', self.start)
-        print('End Point: ', self.end)
-        for i in range (self.height):
-            if self.solution is not None:
-                solution_steps = self.solution[1]
-            else:
-                solution_steps = None
-            print()
-            for j in range (self.width):
-                if self.wall[i][j] == True:
-                    print(' # ', end = '')
-                elif self.start == (i,j):
-                    print(' A ', end='')
-                elif self.end == (i,j):
-                    print(' B ', end='')
-                elif solution_steps is not None and (i,j) in solution_steps:
-                    print(' * ', end='')
-                else:
-                    print('   ', end = '')
-    def Possible_Step(self,state):
-        row, col = state
+    def Possible_Step(self, state):
+        row, col = self.Zero_loc(state)
         Possible = [
-            ('up',(row-1,col)),
-            ('down',(row+1,col)),
-            ('left',(row,col-1)),
-            ('right',(row,col+1))
+            ('up', (row - 1, col)),
+            ('down', (row + 1, col)),
+            ('left', (row, col - 1)),
+            ('right', (row, col + 1))
         ]
         result = []
-        for action, (row,col) in Possible:
+        for action, (row, col) in Possible:
             try:
-                if not self.wall[row][col]:
+                if row >=0 and row <=3 and col >=0 and row <=3:
                     result.append((action, (row, col)))
             except IndexError:
                 continue
         return result
 
     def Solve(self):
-       # self.num_step = 0
+        # self.num_step = 0
 
-        start = Node(state=self.start,parent=None,action=None)
+        start_node = Node(state=self.start, parent=None, action=None)
         frontier = StackFrontier()
-        frontier.Add(start)
+        frontier.Add(start_node)
 
-        self.Steps = set()
+        self.Steps = []
 
         while True:
             if frontier.Empty():
                 raise Exception('No solution')
 
             node = frontier.Remove()
-            self.num_step += 1
+            #self.num_step += 1
 
             if node.state == self.end:
                 actions = []
@@ -141,18 +105,18 @@ class Maze:
                     node = node.parent
                 actions.reverse()
                 cells.reverse()
-                self.solution = (actions,cells)
+                self.solution = (actions, cells)
                 return
-            self.Steps.add(node.state)
+            self.Steps.append(node.state)
 
             for action, state in self.Possible_Step(node.state):
                 if not frontier.Contains_state(state) and state not in self.Steps:
-                    child = Node(state=state,parent=node,action=action)
+                    child = Node(state=state, parent=node, action=action)
                     frontier.Add(child)
 
-maze = Maze('maze1.txt')
+
+maze = Maze()
 maze.Solve()
-print('Steps',maze.Steps)
-print('Number of steps',maze.num_step)
-#print(maze.solution)
-maze.print()
+print('Steps', maze.Steps)
+print('Number of steps', maze.num_step)
+
